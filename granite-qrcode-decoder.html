@@ -61,12 +61,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             type: String,
             observer: '_onDataUrlChange',
           },
+          /**
+           * A blob object to decode
+           */
+          blob: {
+            type: Object,
+            observer: '_onBlobChanged',
+          },
           _qrcodeReady: {
             type: Boolean,
             value: false,
             observer: '_onDataUrlChange',
           },
         };
+      }
+
+      static get observers() {
+        return [
+          '_onDataUrlChange(_qrcodeReady)',
+          '_onBlobChanged(_qrcodeReady)',
+        ];
       }
 
       connectedCallback() {
@@ -100,6 +114,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             console.log('[granite-qrcode-decoder] _onDataUrlChange', this.dataUrl);
           }
           qrcode.decode(this.dataUrl);
+        }
+      }
+
+      _onBlobChanged() {
+        console.log('[granite-qrcode-decoder] _onBlobChanged', this.blob, this._qrcodeReady);
+        if (this._qrcodeReady && this.blob) {
+          let reader = new FileReader();
+          reader.readAsDataURL(this.blob);
+          reader.onloadend = () => {
+            this.dataUrl = reader.result;
+            if (this.debug) {
+              console.log('[granite-qrcode-decoder] _onBlobChanged', this.dataUrl);
+            }
+          };
         }
       }
 
