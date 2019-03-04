@@ -1,0 +1,33 @@
+{
+  "name": "@granite-elements/granite-qrcode-decoder",
+  "description": "An element to scan a QR Code using the device camera",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "lit-element",
+    "lostinbrittany",
+    "qrcode",
+    "decoder"
+  ],
+  "homepage": "https://github.com/LostInBrittany/granite-qrcode-decoder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LostInBrittany/granite-qrcode-decoder"
+  },
+  "author": "Horacio Gonzalez <horacio.gonzalez@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@lostinbrittany/jsqrcode": "^2.0.0-beta-6",
+    "lit-element": "^2.0.0"
+  },
+  "devDependencies": {
+    "@polymer/app-media": "^3.0.1",
+    "@lostinbrittany/iron-demo-helpers": "^3.0.2",
+    "@webcomponents/webcomponentsjs": "^2.2.7",
+    "wct-browser-legacy": "^1.0.2",
+    "web-component-tester": "^6.9.2"
+  },
+  "main": "granite-qrcode-decoder.js",
+  "module": "granite-qrcode-decoder.js",
+  "version": "2.0.0-beta-1"
+}
