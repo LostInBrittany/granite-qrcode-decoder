@@ -17,7 +17,7 @@
   "author": "Horacio Gonzalez <horacio.gonzalez@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@lostinbrittany/jsqrcode": "^2.0.0-beta-6",
+    "@lostinbrittany/jsqrcode": "^2.0.0",
     "lit-element": "^2.0.0"
   },
   "devDependencies": {
@@ -29,5 +29,5 @@
   },
   "main": "granite-qrcode-decoder.js",
   "module": "granite-qrcode-decoder.js",
-  "version": "2.0.0-beta-1"
+  "version": "2.0.0"
 }
