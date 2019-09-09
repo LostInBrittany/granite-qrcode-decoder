@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Image Capture polyfill + QR code decoder demo</title>
+
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+      (function() {
+        window.ensureMediaDevices = new Promise(function(resolve) {
+          if (navigator.mediaDevices == null) {
+            var script = document.createElement('script');
+            script.src = '/bower_components/webrtc-adapter/release/adapter.js';
+            script.onload = resolve;
+            document.body.appendChild(script);
+          } else {
+            resolve();
+          }
+        });
+      })();
+    </script>
+    <script src="/bower_components/imagecapture-polyfill/index.js"></script>
+
+    <link rel="import" href="/bower_components/polymer/polymer.html">
+    <link rel="import" href="/bower_components/app-media/app-media-devices.html">
+    <link rel="import" href="/bower_components/app-media/app-media-stream.html">
+    <link rel="import" href="/bower_components/app-media/app-media-video.html">
+    <link rel="import" href="/bower_components/app-media/app-media-image-capture.html">
+    <link rel="import" href="/bower_components/granite-qrcode-decoder/granite-qrcode-decoder.html">
+    <link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+    <link rel="import" href="/bower_components/iron-icons/image-icons.html">
+
+    <link rel="import" href="/bower_components/neon-animation/web-animations.html">
+    <link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+    <link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
+    <link rel="import" href="/bower_components/paper-item/paper-item.html">
+
+    <link rel="import" href="/blob-to-base64.html">
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <dom-module id="x-video-camera">
+      <template>
+        <style>
+          :host {
+            position: relative;
+            display: block;
+            overflow: hidden;
+          }
+
+          app-media-video {
+            height: calc(100vh - 160px - 64px);
+          }
+
+          paper-fab {
+            position: fixed;
+            bottom: 1em;
+            right: 1em;
+            color: #111;
+            --paper-fab-background: var(--google-yellow-500);
+            --paper-fab-keyboard-focus-background: var(--google-yellow-500);
+          }
+
+          #photos {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            align-items: flex-start;
+            justify-content: flex-start;
+            background-color: #444;
+            box-sizing: border-box;
+            height: 160px;
+            padding: 14px;
+          }
+
+          #photos img {
+            width: 128px;
+            height: 128px;
+            margin-right: 17px;
+          }
+        </style>
+
+        <p>Image Capture API supported: [[imageCaptureSupported]]</p>
+
+        <p>Decoded data: [[decodedData]]</p>
+
+        <paper-dropdown-menu label="Fill light mode" value="{{fillLightMode}}">
+          <paper-listbox slot="dropdown-content" class="dropdown-content" selected="1">
+            <paper-item>off</paper-item>
+            <paper-item>auto</paper-item>
+            <paper-item>flash</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <p>Current fill light mode: [[fillLightMode]]</p>
+
+        <paper-fab
+            on-click="switchCamera"
+            icon="image:switch-camera">
+        </paper-fab>
+
+        <app-media-devices
+            id="device"
+            kind="videoinput"
+            selected-device="{{videoDevice}}">
+        </app-media-devices>
+
+        <!--
+        <app-media-stream
+            video-constraints='{"facingMode": {"ideal": "environment"}, "width": {"min": 1280, "ideal": 3840, "max": 3840}, "height": {"min": 720, "ideal": 2160, "max": 2160}}'
+            stream="{{videoStream}}"
+            active>
+        </app-media-stream>
+        -->
+
+        <!--
+        <app-media-stream
+            video-device="[[videoDevice]]"
+            stream="{{videoStream}}"
+            active>
+        </app-media-stream>
+        -->
+
+        <!--
+        <app-media-stream
+            video-device="[[videoDevice]]"
+            video-constraints='{"width": {"min": 1280, "ideal": 3840, "max": 3840}, "height": {"min": 720, "ideal": 2160, "max": 2160}}'
+            stream="{{videoStream}}"
+            active>
+        </app-media-stream>
+        -->
+
+        <app-media-stream
+            video-device="[[videoDevice]]"
+            video-constraints='{"width": {"ideal": 3840, "max": 3840}, "height": {"ideal": 2160, "max": 2160}}'
+            stream="{{videoStream}}"
+            active>
+        </app-media-stream>
+
+        <app-media-video
+            id="video"
+            source="[[videoStream]]"
+            on-click="record"
+            autoplay
+            muted>
+        </app-media-video>
+
+        <app-media-image-capture
+            id="imageCapture"
+            fill-light-mode="[[fillLightMode]]"
+            stream="[[videoStream]]"
+            focus-mode="single-shot"
+            last-photo="{{photo}}">
+        </app-media-image-capture>
+
+        <blob-to-base64
+            input="[[photo]]"
+            output="{{base64}}">
+        </blob-to-base64>
+
+        <granite-qrcode-decoder
+            data-url="[[base64]]"
+            last-decoded-data="{{decodedData}}"
+            debug>
+        </granite-qrcode-decoder>
+
+        <section id="photos">
+          <template is="dom-repeat" items="[[photos]]" as="photo">
+            <a href="[[_toObjectURL(photo)]]" download="photo.jpg">
+              <img src="[[_toObjectURL(photo)]]" />
+            </a>
+          </template>
+        </section>
+      </template>
+
+      <script>
+        var readyToDefine = Promise.all([
+          ensureMediaDevices,
+          new Promise(function(resolve) {
+            document.addEventListener('WebComponentsReady', resolve);
+          })
+        ]);
+
+        readyToDefine.then(function() {
+          Polymer({
+            is: 'x-video-camera',
+
+            properties: {
+              photo: {
+                type: Blob,
+                observer: '_photoChanged'
+              },
+
+              photos: {
+                type: Array,
+                value: function() {
+                  return [];
+                }
+              },
+
+              imageCaptureSupported: {
+                type: Boolean,
+                readOnly: true,
+                notify: true,
+                value: 'ImageCapture' in window
+              },
+
+              fillLightMode: {
+                type: String,
+                notify: true,
+                value: 'off'
+              }
+            },
+
+            switchCamera: function() {
+              this.$.device.selectNextDevice();
+            },
+
+            record: function() {
+              this.classList.add('photo');
+              this.$.imageCapture.takePhoto();
+            },
+
+            _photoChanged: function(photo) {
+              if (photo != null) {
+                this.push('photos', photo);
+              }
+              this.classList.remove('photo');
+            },
+
+            _toObjectURL: function(blob) {
+              return URL.createObjectURL(blob);
+            }
+          });
+        });
+      </script>
+    </dom-module>
+    <x-video-camera></x-video-camera>
+  </body>
+</html>

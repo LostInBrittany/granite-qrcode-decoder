@@ -37,6 +37,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     class GraniteQrcodeDecoder extends Polymer.Element {
       static get is() { return 'granite-qrcode-decoder'; }
 
+      /**
+       * Fired when a QR-Code is decoded.
+       *
+       * @event qrcode-decoded
+       */
+
       static get properties() {
         return {
           /**
