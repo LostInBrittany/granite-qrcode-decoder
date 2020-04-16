@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "tags": [
+    {
+      "name": "granite-qrcode-decoder",
+      "description": "A custom element to decode a QR Code from an image",
+      "properties": [
+        {
+          "name": "lastDecodedData",
+          "type": "String",
+          "attribute": "last-decoded-data",
+          "description": "The last decoded QRCode",
+          "reflect": true,
+          "default": ""
+        },
+        {
+          "name": "dataUrl",
+          "type": "String",
+          "attribute": "data-url",
+          "description": "A dataURL string to decode. The decode is called every time this property changes",
+          "default": ""
+        },
+        {
+          "name": "blob",
+          "type": "Object",
+          "description": "A blob object to decode, coming for example from an `app-media-image-capture` element",
+          "default": {}
+        },
+        {
+          "name": "debug",
+          "type": "Boolean",
+          "description": "If debug is true, the components logs its actions on the console",
+          "default":  false
+        }
+      ],
+      "events": [
+        {
+          "name": "qrcode-decoded",
+          "type": "CustomEvent<String>",
+          "description": "Fires whenever a QRcode is decoded"
+        }
+      ],
+      "slots": [],
+      "cssProperties": []
+    }
+  ]
+}
