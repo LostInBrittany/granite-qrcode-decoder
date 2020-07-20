@@ -1,6 +1,6 @@
 {
   "name": "@granite-elements/granite-qrcode-decoder",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "An element to scan a QR Code using the device camera",
   "keywords": [
     "web-component",
@@ -38,16 +38,17 @@
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
-    "es-dev-server": "^1.23.0",
-    "eslint": "^6.1.0",
-    "@open-wc/eslint-config": "^2.0.0",
+    "@open-wc/demoing-storybook": "^2.3.12",
+    "@open-wc/eslint-config": "^2.0.6",
     "@open-wc/prettier-config": "^0.1.10",
+    "@open-wc/testing": "^2.5.19",
+    "@open-wc/testing-karma": "^3.4.7",
+    "deepmerge": "^3.2.0",
+    "es-dev-server": "^1.56.1",
+    "eslint": "^6.1.0",
     "husky": "^1.0.0",
     "lint-staged": "^8.0.0",
-    "@open-wc/testing-karma": "^3.0.0",
-    "deepmerge": "^3.2.0",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/demoing-storybook": "^2.0.0"
+    "lodash": ">=4.17.19"
   },
   "eslintConfig": {
     "extends": [
