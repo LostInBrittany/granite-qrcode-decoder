@@ -47,7 +47,7 @@
     "es-dev-server": "^1.57.8",
     "eslint": "^6.1.0",
     "husky": "^1.0.0",
-    "lint-staged": "^8.0.0",
+    "lint-staged": "^13.1.0",
     "lodash": "^4.17.20"
   },
   "eslintConfig": {
