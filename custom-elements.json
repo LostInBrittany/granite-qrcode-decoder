@@ -1,47 +1,244 @@
 {
-  "version": 2,
-  "tags": [
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
     {
-      "name": "granite-qrcode-decoder",
-      "description": "A custom element to decode a QR Code from an image",
-      "properties": [
+      "kind": "javascript-module",
+      "path": "index.js",
+      "declarations": [],
+      "exports": [
         {
-          "name": "lastDecodedData",
-          "type": "String",
-          "attribute": "last-decoded-data",
-          "description": "The last decoded QRCode",
-          "reflect": true,
-          "default": ""
+          "kind": "js",
+          "name": "GraniteQrcodeDecoder",
+          "declaration": {
+            "name": "GraniteQrcodeDecoder",
+            "module": "./src/granite-qrcode-decoder.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "karma.conf.js",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "stories/index.stories.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "Default"
         },
         {
-          "name": "dataUrl",
-          "type": "String",
-          "attribute": "data-url",
-          "description": "A dataURL string to decode. The decode is called every time this property changes",
-          "default": ""
+          "kind": "variable",
+          "name": "EmptyDecoder"
         },
         {
-          "name": "blob",
-          "type": "Object",
-          "description": "A blob object to decode, coming for example from an `app-media-image-capture` element",
-          "default": {}
-        },
-        {
-          "name": "debug",
-          "type": "Boolean",
-          "description": "If debug is true, the components logs its actions on the console",
-          "default":  false
+          "kind": "function",
+          "name": "CanvasExample"
         }
       ],
-      "events": [
+      "exports": [
         {
-          "name": "qrcode-decoded",
-          "type": "CustomEvent<String>",
-          "description": "Fires whenever a QRcode is decoded"
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "stories/index.stories.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Default",
+          "declaration": {
+            "name": "Default",
+            "module": "stories/index.stories.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "EmptyDecoder",
+          "declaration": {
+            "name": "EmptyDecoder",
+            "module": "stories/index.stories.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CanvasExample",
+          "declaration": {
+            "name": "CanvasExample",
+            "module": "stories/index.stories.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/granite-qrcode-decoder.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A custom element to decode a QR Code from an image.",
+          "name": "GraniteQrcodeDecoder",
+          "members": [
+            {
+              "kind": "method",
+              "name": "jsqrcodeCallback",
+              "parameters": [
+                {
+                  "name": "data"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "decodeCanvas",
+              "parameters": [
+                {
+                  "name": "qrCanvas"
+                },
+                {
+                  "description": "Canvas the canvas",
+                  "name": "qrcanvas"
+                }
+              ],
+              "description": "A method to decode a QR Code in a canvas"
+            },
+            {
+              "kind": "method",
+              "name": "_onDataUrlChanged"
+            },
+            {
+              "kind": "method",
+              "name": "_onBlobChanged"
+            },
+            {
+              "kind": "field",
+              "name": "blob",
+              "privacy": "public",
+              "type": {
+                "text": "Object"
+              },
+              "default": "null",
+              "description": "A blob object to decode, coming for example from an `app-media-image-capture` element",
+              "attribute": "blob"
+            },
+            {
+              "kind": "field",
+              "name": "dataUrl",
+              "privacy": "public",
+              "type": {
+                "text": "String"
+              },
+              "default": "''",
+              "description": "A dataURL string to decode. The decode is called everytime this property changes",
+              "attribute": "data-url"
+            },
+            {
+              "kind": "field",
+              "name": "debug",
+              "privacy": "public",
+              "type": {
+                "text": "Boolean"
+              },
+              "default": "false",
+              "description": "If debug is true, the components logs its actions on the console",
+              "attribute": "debug"
+            },
+            {
+              "kind": "field",
+              "name": "lastDecodedData",
+              "privacy": "public",
+              "type": {
+                "text": "String"
+              },
+              "default": "''",
+              "description": "The last decoded QRCode.",
+              "attribute": "last-decoded-data",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "qrcode-decoded",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<String>"
+              },
+              "description": "Fires whenever a QRcode is decoded.",
+              "name": "qrcode-decodeded"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "blob",
+              "type": {
+                "text": "Object"
+              },
+              "default": "null",
+              "description": "A blob object to decode, coming for example from an `app-media-image-capture` element",
+              "fieldName": "blob"
+            },
+            {
+              "name": "data-url",
+              "type": {
+                "text": "String"
+              },
+              "default": "''",
+              "description": "A dataURL string to decode. The decode is called everytime this property changes",
+              "fieldName": "dataUrl"
+            },
+            {
+              "name": "debug",
+              "type": {
+                "text": "Boolean"
+              },
+              "default": "false",
+              "description": "If debug is true, the components logs its actions on the console",
+              "fieldName": "debug"
+            },
+            {
+              "name": "last-decoded-data",
+              "type": {
+                "text": "String"
+              },
+              "default": "''",
+              "description": "The last decoded QRCode.",
+              "fieldName": "lastDecodedData"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "granite-qrcode-decoder",
+          "customElement": true
         }
       ],
-      "slots": [],
-      "cssProperties": []
+      "exports": [
+        {
+          "kind": "js",
+          "name": "GraniteQrcodeDecoder",
+          "declaration": {
+            "name": "GraniteQrcodeDecoder",
+            "module": "src/granite-qrcode-decoder.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "granite-qrcode-decoder",
+          "declaration": {
+            "name": "GraniteQrcodeDecoder",
+            "module": "src/granite-qrcode-decoder.js"
+          }
+        }
+      ]
     }
   ]
 }

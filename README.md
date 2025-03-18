@@ -6,7 +6,7 @@
 
 A custom element to decode a QR Code from an image, using [a modified version](https://github.com/LostInBrittany/jsqrcode) of [Lazersoft's jsqrcode](https://github.com/LazerSoft/jsqrcode) library, to allow `jsqrcode` to deal with ShadowDOM
 
-Built on [lit-element](https://github.com/Polymer/lit-element) following the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+Built on [lit](https://lit.dev/) following the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
 > The old Polymer 2.x-1.x version is available on the [`polymer-hybrid` branch](https://github.com/LostInBrittany/granite-qrcode-decoder/tree/polymer-hybrid).
 
@@ -28,7 +28,7 @@ The element can decode several sources of images:
 
 ```html
 <script type="module">
-  import 'granite-qrcode-decoder/granite-qrcode-decoder.js';
+  import 'granite-qrcode-decoder/index.js';
 </script>
 
 <granite-qrcode-decoder
@@ -94,7 +94,7 @@ For most of the tools, the configuration is in the `package.json` to reduce the 
 
 If you customize the configuration a lot, you can consider moving them to individual files.
 \
-## Local Demo with `es-dev-server`
+## Local Demo with `@web/dev-server`
 ```bash
 npm start
 ```

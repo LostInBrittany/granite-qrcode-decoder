@@ -1,14 +1,18 @@
-module.exports = {
-  stories: ['../stories/**/*.stories.{js,md,mdx}'],
-  addons: [	
-    'storybook-prebuilt/addon-knobs/register.js',	
-    'storybook-prebuilt/addon-docs/register.js',	
-    'storybook-prebuilt/addon-viewport/register.js',
+
+
+/** @type { import('@storybook/web-components-vite').StorybookConfig } */
+const config = {
+  "stories": [
+    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)"
   ],
-  esDevServer: {
-    // custom es-dev-server options
-    nodeResolve: true,
-    watch: true,
-    open: true
-  },
+  "addons": [
+    "@storybook/addon-essentials",
+    "@chromatic-com/storybook",
+    "@storybook/experimental-addon-test"
+  ],
+  "framework": {
+    "name": "@storybook/web-components-vite",
+    "options": {}
+  }
 };
+export default config;
